@@ -76,9 +76,14 @@ class Args(object):
         self.params = params
 
 to_run = [
-    #Run('add', Args([2000,3000])),
-    Run('dot', Args([1000,2000,3000])),
-    Run('som', Args([32,386,512])),
+    Run('np/som', Args([(256,1000)])),
+    Run('np/dot', Args([1000])),
+    Run('np/all', Args([(1024,1000)])),
+    Run('np/any', Args([(1024,1000)])),
+    Run('user/add', Args([(2500,10000)]), exclude=['python']),
+    Run('user/sum', Args([(2500,10000)]), exclude=['python']),
+    Run('user/fir', Args([(200,3000)]), exclude=['python']),
+    Run('user/rgb_to_yuv', Args([('500,500',2000)]), exclude=['python']),
 ]
 
 FAST = "--fast" in sys.argv
@@ -91,16 +96,20 @@ except ValueError:
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
-        #Run('np_dot', Args([500])),
-        #Run('np_som', Args([32])),
-        #Run('user_array-add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
-        Run('user_array-sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        Run('np/som', Args([(16,10)])),
+        Run('np/dot', Args([500])),
+        Run('np/all', Args([(1024,1000)])),
+        Run('np/any', Args([(1024,1000)])),
+        Run('user/add', Args([(2500,10000)]), exclude=['python']),
+        Run('user/sum', Args([(2500,10000)]), exclude=['python']),
+        Run('user/fir', Args([(200,3000)]), exclude=['python']),
+        Run('user/rgb_to_yuv', Args([('100,100',100)]), exclude=['python']),
     ]
 
 configs = [
     Config('python', '/home/rich/.virtualenvs/python/bin/python', []),
     Config('pypy', '/home/rich/.virtualenvs/portpypy/bin/python', []),
-    Config('pypy-vec', '/home/rich/.virtualenvs/pypy/bin/python', ['--jit','vec_all=1,vec_ratio=1,vec_length=50'])
+    Config('pypy-vec', '/home/rich/src/pypy/pypy-c', ['--jit','vec_all=1,vec=1'])
 ]
 
 try:
@@ -114,12 +123,13 @@ for config in configs:
         run.benchmark(config)
 
 def cn(name):
-    name = name.replace("np_", "")
-    name = name.replace("user_", "")
+    name = name.replace("np/", "")
+    name = name.replace("user/", "")
+    name = name.replace("_", "-")
     return name
 
 for config in configs:
     print config.name
     for name, times in config.times.items():
-        print " ", cn(name), ", mean:", np.mean(times), "std:", np.std(times), "|", times
+        print " ", cn(name), "\tmean:", np.mean(times), "\tstd:", np.std(times), "|", times
 
