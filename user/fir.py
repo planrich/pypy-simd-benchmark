@@ -29,4 +29,4 @@ if __name__ == "__main__":
     t = time.time()
     for i in range(I):
         fir(B,X,len(X))
-    print "took", time.time() - t
+    print "time: %s" % (time.time() - t)

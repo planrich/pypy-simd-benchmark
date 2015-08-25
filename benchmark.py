@@ -76,9 +76,14 @@ class Args(object):
         self.params = params
 
 to_run = [
-    #Run('add', Args([2000,3000])),
-    Run('dot', Args([1000,2000,3000])),
-    Run('som', Args([32,386,512])),
+    Run('np/som', Args([(256,1000)])),
+    Run('np/dot', Args([1000])),
+    Run('np/all', Args([(1024,1000)])),
+    Run('np/any', Args([(1024,1000)])),
+    Run('user/add', Args([(2500,10000)]), exclude=['python']),
+    Run('user/sum', Args([(2500,10000)]), exclude=['python']),
+    Run('user/fir', Args([(200,3000)]), exclude=['python']),
+    Run('user/rgb_to_yuv', Args([('500,500',2000)]), exclude=['python']),
 ]
 
 FAST = "--fast" in sys.argv
@@ -91,11 +96,14 @@ except ValueError:
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
-        #Run('np/dot', Args([500])),
-        #Run('np/som', Args([32])),
-        Run('user/array_add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
-        Run('user/array_sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
-        Run('user/fir', Args([(100,10000),(150,20000),(200,3000)]), exclude=['python']),
+        Run('np/som', Args([(16,10)])),
+        Run('np/dot', Args([500])),
+        Run('np/all', Args([(1024,1000)])),
+        Run('np/any', Args([(1024,1000)])),
+        Run('user/add', Args([(2500,10000)]), exclude=['python']),
+        Run('user/sum', Args([(2500,10000)]), exclude=['python']),
+        Run('user/fir', Args([(200,3000)]), exclude=['python']),
+        Run('user/rgb_to_yuv', Args([('100,100',100)]), exclude=['python']),
     ]
 
 configs = [
@@ -123,5 +131,5 @@ def cn(name):
 for config in configs:
     print config.name
     for name, times in config.times.items():
-        print " ", cn(name), ", mean:", np.mean(times), "std:", np.std(times), "|", times
+        print " ", cn(name), "\tmean:", np.mean(times), "\tstd:", np.std(times), "|", times
 

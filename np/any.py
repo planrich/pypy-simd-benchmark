@@ -5,14 +5,14 @@ except ImportError:
 
 def main(v,i):
     for _ in range(i):
-        a = v.all()
-        assert a
+        a = v.any()
+        assert not a
 
 if __name__ == '__main__':
     import sys
     s = int(sys.argv[1])
     I = int(sys.argv[2])
-    V = np.array([1] * s)
+    V = np.array([0] * s)
 
     main(V, I//10)
 
@@ -20,5 +20,3 @@ if __name__ == '__main__':
     s = time.time()
     main(V,I)
     print "time: %s" % (time.time()-s)
-
-
