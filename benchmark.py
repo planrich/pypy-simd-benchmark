@@ -91,10 +91,11 @@ except ValueError:
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
-        Run('np/dot', Args([500])),
-        Run('np/som', Args([32])),
-        Run('user/array-add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
-        Run('user/array-sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        #Run('np/dot', Args([500])),
+        #Run('np/som', Args([32])),
+        Run('user/array_add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        Run('user/array_sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        Run('user/fir', Args([(100,10000),(150,20000),(200,3000)]), exclude=['python']),
     ]
 
 configs = [
@@ -114,8 +115,9 @@ for config in configs:
         run.benchmark(config)
 
 def cn(name):
-    name = name.replace("np_", "")
-    name = name.replace("user_", "")
+    name = name.replace("np/", "")
+    name = name.replace("user/", "")
+    name = name.replace("_", "-")
     return name
 
 for config in configs:
