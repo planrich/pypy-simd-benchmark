@@ -45,8 +45,7 @@ def som(D,I,X,Y,G,DATA,tmp):
 
     return None
 
-def setup(D):
-    I = 4000
+def setup(D,I):
     X = 10
     Y = 10
     G = [np.array([1] * D) for i in range(X*Y)]
@@ -58,7 +57,8 @@ def setup(D):
 if __name__ == "__main__":
     import sys
     import time
-    args = setup(int(sys.argv[1]))
+    I = int(sys.argv[1])
+    args = setup(int(sys.argv[1]), I)
     s = time.time()
     som(*args)
     e = time.time()

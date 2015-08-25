@@ -76,14 +76,14 @@ class Args(object):
         self.params = params
 
 to_run = [
-    Run('np/som', Args([(256,1000)])),
-    Run('np/dot', Args([1000])),
+    Run('np/som', Args([(256,4000)])),
+    Run('np/dot', Args([(1000,1000)])),
     Run('np/all', Args([(1024,1000)])),
     Run('np/any', Args([(1024,1000)])),
     Run('user/add', Args([(2500,10000)]), exclude=['python']),
     Run('user/sum', Args([(2500,10000)]), exclude=['python']),
     Run('user/fir', Args([(200,3000)]), exclude=['python']),
-    Run('user/rgb_to_yuv', Args([('500,500',2000)]), exclude=['python']),
+    Run('user/rgbtoyuv', Args([('500,500',2000)]), exclude=['python']),
 ]
 
 FAST = "--fast" in sys.argv
@@ -96,14 +96,14 @@ except ValueError:
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
-        Run('np/som', Args([(16,10)])),
-        Run('np/dot', Args([500])),
-        Run('np/all', Args([(1024,1000)])),
-        Run('np/any', Args([(1024,1000)])),
-        Run('user/add', Args([(2500,10000)]), exclude=['python']),
-        Run('user/sum', Args([(2500,10000)]), exclude=['python']),
-        Run('user/fir', Args([(200,3000)]), exclude=['python']),
-        Run('user/rgb_to_yuv', Args([('100,100',100)]), exclude=['python']),
+        Run('np/som', Args([(16,1000)])),
+        Run('np/dot', Args([(500,1000)])),
+        Run('np/all', Args([(1024,5000)])),
+        Run('np/any', Args([(1024,5000)])),
+        Run('user/add', Args([(2500,20000)]), exclude=['python']),
+        Run('user/sum', Args([(2500,20000)]), exclude=['python']),
+        Run('user/fir', Args([(500,9000)]), exclude=['python']),
+        Run('user/rgbtoyuv', Args([('100,100',1000)]), exclude=['python']),
     ]
 
 configs = [
@@ -123,6 +123,8 @@ for config in configs:
         run.benchmark(config)
 
 def cn(name):
+    if "user/" in name:
+        name += "*"
     name = name.replace("np/", "")
     name = name.replace("user/", "")
     name = name.replace("_", "-")
@@ -132,4 +134,6 @@ for config in configs:
     print config.name
     for name, times in config.times.items():
         print " ", cn(name), "\tmean:", np.mean(times), "\tstd:", np.std(times), "|", times
+import plot
+plot.show(configs, cn)
 
