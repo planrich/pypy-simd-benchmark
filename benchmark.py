@@ -91,16 +91,16 @@ except ValueError:
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
-        #Run('np_dot', Args([500])),
-        #Run('np_som', Args([32])),
-        #Run('user_array-add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
-        Run('user_array-sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        Run('np/dot', Args([500])),
+        Run('np/som', Args([32])),
+        Run('user/array-add', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
+        Run('user/array-sum', Args([(1000,10000),(1500,10000),(2500,10000)]), exclude=['python']),
     ]
 
 configs = [
     Config('python', '/home/rich/.virtualenvs/python/bin/python', []),
     Config('pypy', '/home/rich/.virtualenvs/portpypy/bin/python', []),
-    Config('pypy-vec', '/home/rich/.virtualenvs/pypy/bin/python', ['--jit','vec_all=1,vec_ratio=1,vec_length=50'])
+    Config('pypy-vec', '/home/rich/src/pypy/pypy-c', ['--jit','vec_all=1,vec=1'])
 ]
 
 try:
