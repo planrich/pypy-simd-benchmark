@@ -76,13 +76,14 @@ class Args(object):
         self.params = params
 
 to_run = [
-    Run('np/any', Args([(1024,1000)])),
-    Run('np/dot', Args([(1000,1000)])),
-    Run('np/som', Args([(256,4000)])),
-    Run('user/add', Args([(2500,10000)]), exclude=['python']),
-    Run('user/fir', Args([(200,3000)]), exclude=['python']),
-    Run('user/rgbtoyuv', Args([('1024,768',500)]), exclude=['python']),
-    Run('user/sum', Args([(2500,10000)]), exclude=['python']),
+    Run('np/any', Args([(300,1000)])),
+    #Run('np/all', Args([(300,1000)])),
+    #Run('np/dot', Args([(1000,1000)])),
+    #Run('np/som', Args([(256,4000)])),
+    #Run('user/add', Args([(2500,10000)]), exclude=['python']),
+    #Run('user/fir', Args([(200,3000)]), exclude=['python']),
+    #Run('user/rgbtoyuv', Args([('1024,768',500)]), exclude=['python']),
+    #Run('user/sum', Args([(2500,10000)]), exclude=['python']),
 ]
 
 FAST = "--fast" in sys.argv
