@@ -76,14 +76,13 @@ class Args(object):
         self.params = params
 
 to_run = [
-    Run('np/som', Args([(256,4000)])),
-    Run('np/dot', Args([(1000,1000)])),
-    Run('np/all', Args([(1024,1000)])),
     Run('np/any', Args([(1024,1000)])),
+    Run('np/dot', Args([(1000,1000)])),
+    Run('np/som', Args([(256,4000)])),
     Run('user/add', Args([(2500,10000)]), exclude=['python']),
-    Run('user/sum', Args([(2500,10000)]), exclude=['python']),
     Run('user/fir', Args([(200,3000)]), exclude=['python']),
-    Run('user/rgbtoyuv', Args([('500,500',2000)]), exclude=['python']),
+    Run('user/rgbtoyuv', Args([('1024,768',500)]), exclude=['python']),
+    Run('user/sum', Args([(2500,10000)]), exclude=['python']),
 ]
 
 FAST = "--fast" in sys.argv
@@ -91,14 +90,13 @@ try:
     idx = sys.argv.index("--times")
     TIMES = int(sys.argv[idx+1])
 except ValueError:
-    TIMES = 1
+    TIMES = 10
 
 if FAST:
     del sys.argv[sys.argv.index('--fast')]
     to_run = [
         Run('np/som', Args([(16,1000)])),
         Run('np/dot', Args([(500,1000)])),
-        Run('np/all', Args([(1024,5000)])),
         Run('np/any', Args([(1024,5000)])),
         Run('user/add', Args([(2500,20000)]), exclude=['python']),
         Run('user/sum', Args([(2500,20000)]), exclude=['python']),
@@ -134,6 +132,46 @@ for config in configs:
     print config.name
     for name, times in config.times.items():
         print " ", cn(name), "\tmean:", np.mean(times), "\tstd:", np.std(times), "|", times
-import plot
-plot.show(configs, cn)
+
+import numpy
+means = {'python': [], 'pypy-vec': [], 'pypy': []}
+stds = {'python': [], 'pypy-vec': [], 'pypy': []}
+all_benchmark_names = set()
+for config in configs:
+    for name in config.times:
+        all_benchmark_names.add(name)
+all_benchmark_names = sorted(list(all_benchmark_names))
+all_benchmark_names_show = [cn(n).split('-')[0] for n in all_benchmark_names]
+for config in configs:
+    for benchmark_name in all_benchmark_names:
+        times = config.times.get(benchmark_name, [])
+        if not times:
+            means[config.name].append(0)
+            stds[config.name].append(0)
+        else:
+            means[config.name].append(numpy.mean(times))
+            stds[config.name].append(numpy.std(times))
+
+python = configs[0]
+pypy = configs[1]
+vec = configs[2]
+print "x\ty\tvec"
+for i,name in enumerate(all_benchmark_names_show):
+    pythontime = means[python.name][i]
+    pypytime = means[pypy.name][i]
+    vectime = means[vec.name][i]
+    if pythontime == 0.0:
+        pythontime = pypytime
+        pypytime = 1
+        pypyspeedup = 1
+    else:
+        pypyspeedup = pythontime / pypytime
+    vecspeedup = pythontime / vectime
+    l = locals()
+    fmt = "{name}\t{pypyspeedup}\t{vecspeedup}"
+    print fmt.format(**l)
+        
+
+#import plot
+#plot.show('custom-benchmark.pdf',means,stds,all_benchmark_names,all_benchmark_names_show)
 
