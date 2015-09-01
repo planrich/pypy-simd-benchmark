@@ -8,6 +8,7 @@ except ImportError:
 import random
 import math
 
+# show start
 def bmu(grid, x, y, sel, tmp):
     """ calc the best matching unit, the one that has the smallest euclidean dist """
     min_pos = 0
@@ -44,6 +45,7 @@ def som(D,I,X,Y,G,DATA,tmp):
         adjust(G,X,Y,pos,hci,alpha,selection,tmp)
 
     return None
+# show stop
 
 def setup(D,I):
     X = 10

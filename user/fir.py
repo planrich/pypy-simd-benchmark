@@ -2,6 +2,7 @@ import sys
 import random
 import array
 
+# show start
 def fir(B,X,n):
     # see https://en.wikipedia.org/wiki/Finite_impulse_response
     i = 0
@@ -14,6 +15,7 @@ def fir(B,X,n):
         del b,x,a
         i += 1
     return res
+# show stop
 
 if __name__ == "__main__":
     l = int(sys.argv[1])

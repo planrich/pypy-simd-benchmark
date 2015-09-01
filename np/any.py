@@ -3,10 +3,12 @@ try:
 except ImportError:
     import numpy as np
 
+# show start
 def main(v,i):
     for _ in range(i):
         a = v.any()
         assert not a
+# show stop
 
 if __name__ == '__main__':
     import sys

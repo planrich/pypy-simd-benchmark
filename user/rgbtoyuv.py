@@ -1,7 +1,9 @@
 
 import array
 import sys
+import time
 
+# show start
 def conv_rgb_to_yuv(R,G,B,Y,U,V):
     # see https://en.wikipedia.org/wiki/YUV
     # a naive implementation
@@ -11,16 +13,7 @@ def conv_rgb_to_yuv(R,G,B,Y,U,V):
         U[i] = -0.147 * R[i] + -0.289 + G[i] + 0.436 * B[i]
         V[i] = 0.615 * R[i] * -0.515 + G[i] * 0.100 + B[i]
         i += 1
-
-def conv_yuv_to_rgb(R,G,B,Y,U,V):
-    # see https://en.wikipedia.org/wiki/YUV
-    # a naive implementation
-    i = 0
-    while i < len(R):
-        Y[i] = R[i] * 0.299 + G[i] * 0.587 + B[i] * 0.114
-        U[i] = -0.147 * R[i] + -0.289 + G[i] + 0.436 * B[i]
-        V[i] = 0.615 * R[i] * -0.515 + G[i] * 0.100 + B[i]
-        i += 1
+# show stop
 
 if __name__ == "__main__":
     w, h = [int(x) for x in sys.argv[1].split(",")]
@@ -34,7 +27,6 @@ if __name__ == "__main__":
     b = array.array('d', [0.2] * w * h)
     for i in range(10):
         conv_rgb_to_yuv(r,g,b,y,u,v)
-    import time
     t = time.time()
     for i in range(I):
         conv_rgb_to_yuv(r,g,b,y,u,v)

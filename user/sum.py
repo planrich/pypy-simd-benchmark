@@ -2,17 +2,19 @@ import time
 import sys
 import array
 
-def f(v,w,s):
+# show start
+def py_sum(v,w,s):
     i = 0
     x = 0
     while i < s:
         x += v[i]
         i += 1
-    assert x == 2.0*s
+# show stop
 
 def run(v,w,j,s):
     for i in range(j):
-        f(v,w,s)
+        v = py_sum(v,w,s)
+        assert v == 2.0*s
 
 if __name__ == '__main__':
     s = int(sys.argv[1])

@@ -3,9 +3,11 @@ try:
 except ImportError:
     import numpy as np
 
-def main(m,v,o,I):
-    for i in range(I):
-        np.dot(m,v,out=o)
+# show start
+def main(M,V,O,I):
+    for _ in range(I):
+        np.dot(M,V,out=O)
+# show stop
 
 if __name__ == '__main__':
     import sys
