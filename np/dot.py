@@ -4,8 +4,8 @@ except ImportError:
     import numpy as np
 
 # show start
-def main(M,V,O,I):
-    for _ in range(I):
+def numpy_dot(M,V,O,count):
+    for _ in range(count):
         np.dot(M,V,out=O)
 # show stop
 
@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     import time
     s = time.time()
-    main(m,v,o,I)
+    numpy_dot(m,v,o,I)
     e = time.time()
     print "time: %s" % (e-s)
 

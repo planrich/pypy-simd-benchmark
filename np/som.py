@@ -10,7 +10,7 @@ import math
 
 # show start
 def bmu(grid, x, y, sel, tmp):
-    """ calc the best matching unit, the one that has the smallest euclidean dist """
+    """ Entry in the grid that has the smallest euclidean distance. """
     min_pos = 0
     min_dist = float(10000)
     for i in range(x*y):
@@ -25,25 +25,23 @@ def bmu(grid, x, y, sel, tmp):
     return min_pos
 
 def adjust(G, X, Y, pos, hci, alpha, selection, tmp):
-    m = G[pos]
-    # m = m + alpha * (hci) * (m - sel)
-    ufunc.subtract(m, selection, out=tmp)
+    vector = G[pos]
+    # vector = vector + alpha * (vector - sel)
+    ufunc.subtract(vector, selection, out=tmp)
     ufunc.multiply(tmp, alpha, out=tmp)
-    ufunc.add(m, tmp, out=m)
-
-    G[pos] = m
+    ufunc.add(vector, tmp, out=vector)
+    G[pos] = vector
 
 def som(D,I,X,Y,G,DATA,tmp):
     r = random.Random()
     r.seed(0)
-    for j in xrange(I):
+    for j in range(I):
         i = r.randint(0,49)
         selection = DATA[i]
         pos = bmu(G, X, Y, selection, tmp)
         alpha = float(j)/I
         hci = 1 # not calculated for this bench
         adjust(G,X,Y,pos,hci,alpha,selection,tmp)
-
     return None
 # show stop
 
@@ -54,7 +52,6 @@ def setup(D,I):
     DATA = [np.array([2] * D) for i in range(50)]
     tmp = np.empty(D)
     return D,I,X,Y,G,DATA,tmp
-
 
 if __name__ == "__main__":
     import sys

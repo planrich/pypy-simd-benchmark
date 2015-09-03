@@ -3,17 +3,18 @@ import sys
 import array
 
 # show start
-def py_sum(v,w,s):
+def py_sum(V,size):
     i = 0
-    x = 0
-    while i < s:
-        x += v[i]
+    a = 0
+    while i < size:
+        a += V[i]
         i += 1
+    return a
 # show stop
 
 def run(v,w,j,s):
     for i in range(j):
-        v = py_sum(v,w,s)
+        v = py_sum(v,s)
         assert v == 2.0*s
 
 if __name__ == '__main__':

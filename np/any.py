@@ -4,9 +4,10 @@ except ImportError:
     import numpy as np
 
 # show start
-def main(v,i):
-    for _ in range(i):
-        a = v.any()
+def numpy_any(V,count):
+    # V contains only 0s
+    for _ in range(count):
+        a = V.any()
         assert not a
 # show stop
 
@@ -16,9 +17,9 @@ if __name__ == '__main__':
     I = int(sys.argv[2])
     V = np.array([0] * s)
 
-    main(V, I//10)
+    numpy_any(V, I//10)
 
     import time
     s = time.time()
-    main(V,I)
+    numpy_any(V,I)
     print "time: %s" % (time.time()-s)
